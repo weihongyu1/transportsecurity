@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>info_left</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <script src="/js/jquery-3.3.1.slim.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .leftNum {
+            margin-left: 1.25rem;
+            font-size: medium;
+        }
+    </style>
+</head>
+<body style="background-color: #2F4056;color:#B3D7FF">
+<br>
+<div style="height: 1.875rem; background-color: #004085">
+    <h6 style="padding-top: 0.3125rem;margin-left: 0.625rem">车辆信息</h6>
+</div>
+<br>
+<div class="leftNum">
+    <p th:text="'车主姓名：'+${vehicle.getVName()}"></p>
+    <p th:text="'车牌号：'+${vehicle.getVNum()}"></p>
+    <p th:text="'车辆类型：'+${vehicle.getVType()}"></p>
+</div>
+<div style="height: 0.0625rem;background-color: #6c757d"></div>
+<br>
+<div style="height: 1.875rem; background-color: #004085;margin-top: 2rem">
+    <h6 style="padding-top: 0.35rem;margin-left: 0.625rem">碰撞数据</h6>
+</div>
+<br>
+<div style="height: 22.5rem;margin-left: 1rem;margin-right: 1rem">
+        <table class="table table-striped" style="color: #B3D7FF">
+            <thead>
+            <tr>
+                <th scope="col">纵向加速度（ax)</th>
+                <th scope="col">横向加速度（ay）</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="ac:${acceleration}">
+                <td th:text="${ac.getAx()}"></td>
+                <td th:text="${ac.getAy()}"></td>
+            </tr>
+            <tr>
+                <td>. . .</td>
+                <td>. . .</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+
+<!--    <iframe name="myFrame" th:src="@{/ts/accident/tu(aId=${aId})}"-->
+<!--            style="width: 100%; height: 100%; border: none; overflow-y: hidden;padding-right: 3.125rem;">-->
+<!--    </iframe>-->
+    <a th:href="@{/ts/accident/tu(aId=${aId})}" style="margin-left: 5.375rem" class="btn bg-info" target="_blank">数据分析</a>
+    <a th:href="@{/ts/accident/download(vId=${vId},aId=${aId})}" style="margin-left: 1rem" class="btn bg-info">数据下载</a>
+    <br>
+</div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>info_right</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <script src="/js/jquery-3.3.1.slim.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .leftNum {
+            margin-left: 1.25rem;
+            font-size: medium;
+        }
+    </style>
+</head>
+<body style="background-color: #2F4056;color:#B3D7FF">
+<br>
+<div style="height: 1.875rem; background-color: #004085">
+    <h6 style="padding-top: 0.3125rem;margin-left: 0.625rem">事故信息</h6>
+</div>
+<br>
+<div class="leftNum">
+    <p th:text="'驾驶员头部伤情：'+${detailInfo.getDriverDegreeOfDamage()}"></p>
+    <p th:text="'后排乘员头部伤情：'+${detailInfo.getPassengerDegreeOfDamage()}"></p>
+    <p th:text="'碰撞方向：'+${detailInfo.getDirection()}"></p>
+    <p th:text="'安全气囊是否弹开：'+${detailInfo.getIsBounce()}"></p>
+    <p th:text="'日期：'+${detailInfo.getDate()}"></p>
+    <p th:text="'时间：'+${detailInfo.getTime()}"></p>
+</div>
+<div style="height: 0.0625rem;background-color: #6c757d"></div>
+<div style="height: 1.875rem; background-color: #004085;margin-top: 1.5rem">
+    <h6 style="padding-top: 0.26rem;margin-left: 0.625rem">地址信息</h6>
+</div>
+<br>
+<div class="leftNum">
+    <p th:text="'经度：'+${detailInfo.getLng()}"></p>
+    <p th:text="'纬度：'+${detailInfo.getLat()}"></p>
+    <p th:text="'地址：'+${detailInfo.getAddress()}"></p>
+</div>
+<div style="height: 0.0625rem;background-color: #6c757d"></div>
+</div>
+
+</body>
+</html>

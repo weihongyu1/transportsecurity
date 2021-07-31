@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 映射SQL语句 -->
+<!-- namespace：名称空间指定为接口的全类名 -->
+<mapper namespace="com.why.transportsecurity_finally.mapper.AyMapper">
+    <select id="getAy" resultType="double">
+        select acceleration_y from tbl_ay where a_id = #{aID}
+    </select>
+
+    <insert id="insertAy">
+        insert into tbl_ay values (#{id} , #{accelerationY},#{aId})
+    </insert>
+
+    <delete id="deleteAy">
+        delete from tbl_ay where a_id = #{aId}
+    </delete>
+</mapper>

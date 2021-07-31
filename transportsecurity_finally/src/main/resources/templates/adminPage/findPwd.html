@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>找回密码</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <script src="/js/jquery-3.3.1.slim.min.js" ></script>
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent1" style="margin-left: 20rem">
+        <a class="navbar-brand" href="#">
+            <img src="/img/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+            Transport Security 安全中心
+        </a>
+
+        <div class="p-2 bd-highlight" style="margin-left: 20rem">
+            <button type="button" class="btn btn-outline-info"><a href="/ts/accident/showLogin" style="color: #121416">登录</a></button>
+            <div style="margin-left: 1rem;display: inline-block"></div>
+            <button type="button" class="btn btn-outline-info"><a href="/ts/accident/showRegister" style="color: #121416;">注册</a></button>
+        </div>
+    </div>
+</nav>
+</header>
+<br><br><br><br>
+<div style="margin-left: 35rem;width: 20rem">
+    <form action="/ts/accident/findPwd" method="post">
+        账户ID：<input type="text" class="form-control" id="uId" name="uId" style="margin-top: 1rem">
+        <br>
+        电话号码：<input type="text" class="form-control" placeholder="请输入该账号绑定的电话" id="toPhone" name="toPhone" style="margin-top: 1rem;">
+        <br>
+        <p th:if="${msg != null}" th:text="${msg}" style="color: red"></p>
+        验证码：<input type="button" id="btn" class="btn-outline-secondary btn" value="点击获取验证码" onclick="settime(this)" />
+        <input type="text" class="form-control" id="toPwd" name="toPwd" style="margin-top: 1rem">
+        <div class="alert alert-danger" role="alert" style="margin-top: 0.5rem">
+            登录后请及时修改密码！
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">找回密码</button>
+        <br><br>
+    </form>
+</div>
+
+<script type="text/javascript">
+
+    var countdown=60;
+    var count = 0;
+
+    function settime(obj) {
+        var phone = $("#toPhone").val();
+        var uId = $("#uId").val();
+
+        if (countdown == 0) {
+            obj.removeAttribute("disabled");
+            obj.value="免费获取验证码";
+            countdown = 60;
+            return;
+        } else {
+            obj.setAttribute("disabled", true);
+            obj.value="重新发送(" + countdown + "s)";
+            countdown--;
+        }
+
+        setTimeout(function() {
+                settime(obj) }
+            ,1000)
+
+        if (count == 0){
+            count = count +1;
+            $.ajax({
+                url: "/ts/accident/sendPhone?phone="+phone+"&uId="+uId,
+                data: null,
+                type: "get",
+                dataType: "json"
+            })
+        }
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 映射SQL语句 -->
+<!-- namespace：名称空间指定为接口的全类名 -->
+<mapper namespace="com.why.transportsecurity_finally.mapper.AxMapper">
+    <select id="getAx" resultType="double">
+        select acceleration_x from tbl_ax where a_id = #{aId}
+    </select>
+    
+    <insert id="insertAx">
+        insert into tbl_ax values (#{id} , #{accelerationX},#{aId})
+    </insert>
+
+    <delete id="deleteAx">
+        delete from tbl_ax where a_id = #{aId}
+    </delete>
+</mapper>

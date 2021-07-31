@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <script src="/js/jquery-3.3.1.slim.min.js" ></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+            <a class="navbar-brand" href="#">
+                <img src="/img/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+                千羽
+            </a>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent2">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/ts/accident/warning">首页<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/ts/accident/vehicles(pageNum=1)}">车辆信息管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">关于我们</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">企业文化</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">多人协作</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">联系我们</a>
+                    </li>
+                </ul>
+
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" style="width: 400px">
+                    <button class="btn btn-outline-info my-2 my-sm-0" type="submit">搜索</button>
+                </form>
+            </div>
+            <div class="p-2 bd-highlight">
+                <div class="btn-group dropdown">
+                    <button type="button"
+                            class="btn dropdown-toggle btn-outline-success" style="position: relative" data-toggle="dropdown" aria-haspopup="true"
+                            th:if="${session.login != null}" th:text="${session.login}"
+                            aria-expanded="false">
+                    </button>
+                    <button type="button"
+                            class="btn dropdown-toggle btn-outline-success" style="position: relative" data-toggle="dropdown" aria-haspopup="true"
+                            th:if="${session.login == null}"
+                            aria-expanded="false">
+                        请登录
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/ts/accident/personal">个人管理</a>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-outline-danger"><a href="/ts/accident/logOut" style="color: #b02a37" >退出</a></button>
+            </div>
+        </div>
+    </nav>
+</header>
+<br><br>
+
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical" style="margin-top: 4rem">
+                    <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">个人中心</a>
+                    <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">基本设置</a>
+                    <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">安全设置</a>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="tab-content" id="v-pills-tabContent">
+                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                        <h3 style="font-weight: bolder">个人中心</h3><br>
+                        <div style="height: 2px;background-color: #93D1FF"></div>
+                        <br><br>
+                        <div style="margin-left: 2rem;">
+                            姓名：<P style="display: inline-block" th:text="${adminAll.getUName()}">admin01</P>
+                            <br><br>
+                            账户Id：<p style="display: inline-block" th:text="${adminAll.getUIds()}">3180604001</p>
+                            <br><br>
+                            电话：<p style="display: inline-block" th:text="${adminAll.getUPhone() != null}?${adminAll.getUPhone()}:'您还没有设置哦！'">您还没有设置哦！</p>
+                            <br><br>
+                            邮箱：<p style="display: inline-block" th:text="${adminAll.getEMail() != null}?${adminAll.getEMail()}:'您还没有设置哦！'">您还没有设置哦！</p>
+                            <br><br>
+                            住址：<p style="display: inline-block" th:text="${adminAll.getUAddress() != null}?${adminAll.getUAddress()}:'您还没有设置哦！'">您还没有设置哦！</p>
+                            <br><br>
+                            出生日期：<p style="display: inline-block" th:text="${adminAll.getUBirth()}?${adminAll.getUBirth()}:'您还没有设置哦！'">您还没有设置哦！</p>
+                            <br><br>
+                            入职日期：<p style="display: inline-block" th:text="${adminAll.getUDate() != null}?${adminAll.UDate}:'您还没有设置哦！'">您的付出我们还不知晓哦！</p>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                        <h3 style="font-weight: bolder">基本设置</h3><br>
+                        <div style="height: 2px;background-color: #93D1FF"></div>
+                        <br><br>
+                        <div style="margin-left: 2rem;">
+                            <form action="/ts/accident/personalUpdate" method="post">
+                                姓名：<input th:value="${adminAll.getUName()}" type="text" class="form-control" id="uName" name="uName" style="margin-top: 1rem">
+                                <br>
+                                账户Id：<input th:value="${adminAll.getUIds()}" type="text" class="form-control" id="uId" name="uIds" style="margin-top: 1rem">
+                                <br>
+                                电话：<input th:value="${adminAll.getUPhone()}" type="text" class="form-control" id="uPhone"  name="uPhone" style="margin-top: 1rem">
+                                <br>
+                                邮箱：<input th:value="${adminAll.getEMail()}" type="email" class="form-control" id="uEmail" name="uEmail" style="margin-top: 1rem">
+                                <br>
+                                住址：<input th:value="${adminAll.getUAddress()}" type="text" class="form-control" id="uAddress" name="uAddress" style="margin-top: 1rem">
+                                <br>
+                                出生日期：<input th:value="${adminAll.getUBirth()}" type="date" class="form-control" id="uBirth" name="uBirth" style="margin-top: 1rem">
+                                <br>
+                                入职日期：<input th:value="${adminAll.getUDate()}" type="date" class="form-control" id="uDate" name="uDate" style="margin-top: 1rem">
+                                <br>
+                                <input type="hidden" th:value="${adminAll.getId()}" name="id">
+                                <input type="hidden" th:value="${adminAll.getUId()}" name="uId">
+                                <button type="submit" class="btn btn-primary">提交修改</button>
+                                <br><br>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                        <h3 style="font-weight: bolder">安全设置</h3><br>
+                        <div style="height: 2px;background-color: #93D1FF"></div>
+                        <br><br>
+                        <div style="margin-left: 2rem;">
+                            <form action="/ts/accident/newPwd" method="post">
+                                <input type="hidden" name="uId" th:value="${adminAll.getUId()}">
+                                旧密码：<input type="password" class="form-control" id="uOldPwd" name="uOldPwd" style="margin-top: 1rem">
+                                <br>
+                                新密码：<input type="password" class="form-control" id="uNewPwdPre" name="uNewPwdPre" style="margin-top: 1rem">
+                                <br>
+                                <p id="msg_pwd" style="margin-left: 150px"></p>
+                                确认密码：<input type="password" class="form-control" id="uNewPwdAfter" name="uNewPwdAfter" style="margin-top: 1rem">
+                                <br>
+                                <button type="submit" id="btn-change" class="btn btn-primary">提交修改</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    $(document).ready(function(){
+        $('#uNewPwdPre').on('input propertychange', function() {
+            //input propertychange即实时监控键盘输入包括粘贴
+            var pwd = $.trim($(this).val());
+            //获取this，即ipwd的val()值，trim函数的作用是去除空格
+            var rpwd = $.trim($("#uNewPwdAfter").val());
+            if(rpwd!=""){
+                if(pwd==""&&rpwd==""){
+                    //若都为空，则提示密码不能为空，为了用户体验（在界面上用required同时做了处理）
+                    $("#msg_pwd").html("<font color='red'>密码不能为空</font>");
+                }
+                else{
+                    if(pwd==rpwd){                                 //相同则提示密码匹配
+                        $("#msg_pwd").html("<font color='green'>两次密码匹配通过</font>");
+                        $("#btn-change").attr("disabled",false); //使按钮无法点击
+                    }else{                                          //不相同则提示密码匹配
+                        $("#msg_pwd").html("<font color='red'>两次密码不匹配</font>");
+                        $("#btn-change").attr("disabled",true);
+                    }
+                }}
+        })
+    });
+
+    //由于是两个输入框，所以进行两个输入框的几乎相同的判断
+    $(document).ready(function(){
+        $('#uNewPwdAfter').on('input propertychange', function() {
+            var pwd = $.trim($(this).val());
+            var rpwd = $.trim($("#uNewPwdPre").val());
+            if(pwd==""&&rpwd==""){
+                $("#msg_pwd").html("<font color='red'>密码不能为空</font>");
+            }
+            else{
+                if(pwd==rpwd){
+                    $("#msg_pwd").html("<font color='green'>两次密码匹配通过</font>");
+                    $("#btn-change").attr("disabled",false);
+                }else{
+                    $("#msg_pwd").html("<font color='red'>两次密码不匹配</font>");
+                    $("#btn-change").attr("disabled",true);
+                }
+            }
+        })
+    });
+</script>
+</body>
+</html>

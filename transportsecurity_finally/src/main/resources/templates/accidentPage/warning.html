@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="10">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>warning</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery-3.3.1.slim.min.js" ></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+            <a class="navbar-brand" href="#">
+                <img src="/img/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+                千羽
+            </a>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent2">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/ts/accident/warning">首页<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/ts/accident/vehicles(pageNum=1)}">车辆信息管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">关于我们</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">企业文化</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">多人协作</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">联系我们</a>
+                    </li>
+                </ul>
+
+                <form class="form-inline my-2 my-lg-0" action="/ts/accident/totalSearch">
+                    <input class="form-control mr-sm-2" name="search" type="search" placeholder="Search" aria-label="Search" style="width: 400px">
+                    <button class="btn btn-outline-info my-2 my-sm-0" type="submit">搜索</button>
+                </form>
+            </div>
+            <div class="p-2 bd-highlight">
+                <div class="btn-group dropdown">
+                    <button type="button"
+                            class="btn dropdown-toggle btn-outline-success" style="position: relative" data-toggle="dropdown" aria-haspopup="true"
+                            th:if="${session.login != null}" th:text="${session.login}"
+                            aria-expanded="false">
+                    </button>
+                    <button type="button"
+                            class="btn dropdown-toggle btn-outline-success" style="position: relative" data-toggle="dropdown" aria-haspopup="true"
+                            th:if="${session.login == null}"
+                            aria-expanded="false">
+                        请登录
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/ts/accident/personal">个人管理</a>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-outline-danger"><a href="/ts/accident/logOut" style="color: #b02a37" >退出</a></button>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="alert alert-warning alert-dismissible fade show" style="height: 2rem;font-size: small" role="alert">
+    <pre style="padding-top: 0"><strong>请设置浏览器开启声音!</strong> 否则您将无法收到报警音效，若您已开启，请忽略此提示。</pre>
+    <button style="padding-top: 0.2rem" type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<br><br>
+<main>
+    <table class="table table-bordered table-hover" id="tableInfos">
+        <thead>
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">车牌号</th>
+            <th scope="col">车主姓名</th>
+            <th scope="col">车辆类型</th>
+            <th scope="col">事故/处理时间</th>
+            <th scope="col">处理状态</th>
+            <th scope="col">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <!-- 未处理 -->
+        <tr class="table-danger" th:each="info:${infos}" th:if="${!info.isStatus()}">
+            <th scope="row" th:text="${infoStat.index+1}">1</th>
+            <td th:text="${info.getVNum()}">甘A-12345</td>
+            <td th:text="${info.getVName()}">why</td>
+            <td th:text="${info.getVType()}">小汽车</td>
+            <td th:text="${info.getDate()}">2021-06-04 16:00:21</td>
+            <td>未处理</td>
+            <td>
+                <form action="/ts/accident/info" method="post" target="_blank">
+                    <input type="hidden" th:value="0" name="solve">
+                    <input type="hidden" th:value="${info.getVId()}" name="vId">
+                    <input type="hidden" th:value="${info.getAId()}" name="aId">
+                    <button type="submit" class="btn btn-outline-danger">处理</button>
+                </form>
+            </td>
+        </tr>
+
+        <!-- 已处理 -->
+        <tr class="table-secondary" th:each="info:${infos}" th:if="${info.isStatus()}">
+            <th scope="row" th:text="${infoStat.index+1}">1</th>
+            <td th:text="${info.getVNum()}">甘A-12345</td>
+            <td th:text="${info.getVName()}">why</td>
+            <td th:text="${info.getVType()}">小汽车</td>
+            <td th:text="${info.getDate()}">2021-06-04 16:00:21</td>
+            <td>已处理</td>
+            <td>
+                <form action="/ts/accident/info" method="post" target="_blank">
+                    <input type="hidden" th:value="1" name="solve">
+                    <input type="hidden" th:value="${info.getVId()}" name="vId">
+                    <input type="hidden" th:value="${info.getAId()}" name="aId">
+                    <button type="submit" class="btn btn-outline-secondary">查看</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<!-- 播放声音 -->
+<audio th:if="${flag}" autoplay="autoplay" id="bg-music">
+    <source src="/music/warning.mp3" type="audio/mpeg"></source>
+</audio>
+</body>
+</html>

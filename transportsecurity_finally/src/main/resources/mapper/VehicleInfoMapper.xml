@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 映射SQL语句 -->
+<!-- namespace：名称空间指定为接口的全类名 -->
+<mapper namespace="com.why.transportsecurity_finally.mapper.VehicleInfoMapper">
+    <select id="getVehicle" resultType="com.why.transportsecurity_finally.entity.VehicleInfo">
+        select id,v_name,v_num,v_type from tbl_vehicle_info where id = #{id}
+    </select>
+
+    <select id="getAll" resultType="com.why.transportsecurity_finally.entity.VehicleInfo">
+        select id,v_name,v_num,v_type from tbl_vehicle_info
+    </select>
+
+    <select id="getVehicleByVNum" resultType="com.why.transportsecurity_finally.entity.VehicleInfo">
+        select id,v_name,v_num,v_type from tbl_vehicle_info where v_num = #{vNum}
+    </select>
+
+    <insert id="insertVehicle">
+        insert into tbl_vehicle_info values (null ,#{vName},#{vNum},#{vType})
+    </insert>
+
+    <delete id="deleteVehicle">
+        delete from tbl_vehicle_info where id = #{id}
+    </delete>
+
+    <update id="updateVehicle">
+        update tbl_vehicle_info set v_name = #{vName},v_num = #{vNum},v_type = #{vType} where id = #{id}
+    </update>
+
+    <select id="getVehicleByVName" resultType="com.why.transportsecurity_finally.entity.VehicleInfo">
+        select id,v_name,v_num,v_type from tbl_vehicle_info where v_name = #{vName}
+    </select>
+
+    <select id="getCount" resultType="int">
+        select count(*) from tbl_vehicle_info;
+    </select>
+</mapper>

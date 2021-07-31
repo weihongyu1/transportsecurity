@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>碰撞数据</title>
+    <style>::-webkit-scrollbar{display:none;}html,body{overflow:hidden;height:100%;margin:0;}</style>
+</head>
+<body>
+<h2 style="font-weight: bolder;margin-top: 2rem;margin-left: 45rem">事故碰撞数据</h2>
+<div id="mountNode"></div>
+
+<script>/*Fixing iframe window.innerHeight 0 issue in Safari*/document.body.clientHeight;</script>
+<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g2-3.5.1/dist/g2.min.js"></script>
+<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.data-set-0.10.1/dist/data-set.min.js"></script>
+<script>
+    // 在一行中保存多个城市的数据，需要将数据转换成
+    // {month: 'Jan', city: 'Tokyo', temperature: 3.9}
+    var data = [];
+
+    var axs=[[${ax}]];
+    var ays = [[${ay}]];
+
+    if (axs.length >= ays.length){
+        for (var i = 0; i < axs.length; i++) {
+            if (i < ays.length){
+                var temp = {
+                    month: i,
+                    ax: axs[i],
+                    ay: ays[i]
+                };
+                data.push(temp)
+            }else {
+                var temp = {
+                    month: i,
+                    ax: axs[i],
+                    ay: 0
+                };
+                data.push(temp)
+            }
+        }
+    }else {
+        for (var i = 0; i < ays.length; i++) {
+            if (i < axs.length){
+                var temp = {
+                    month: i,
+                    ax: axs[i],
+                    ay: ays[i]
+                };
+                data.push(temp)
+            }else {
+                var temp = {
+                    month: i,
+                    ax: 0,
+                    ay: ays[i]
+                };
+                data.push(temp)
+            }
+        }
+    }
+
+    var ds = new DataSet();
+    var dv = ds.createView().source(data);
+    // fold 方式完成了行列转换，如果不想使用 DataSet 直接手工转换数据即可
+    dv.transform({
+        type: 'fold',
+        fields: ['ax', 'ay'], // 展开字段集
+        key: 'city', // key字段
+        value: 'temperature' // value字段
+    });
+    var chart = new G2.Chart({
+        container: 'mountNode',
+        forceFit: true,
+        height: window.innerHeight
+    });
+    chart.source(dv, {
+        month: {
+            range: [0, 1]
+        }
+    });
+    chart.tooltip({
+        crosshairs: {
+            type: 'line'
+        }
+    });
+    chart.axis('temperature', {
+        label: {
+            textStyle: {
+                fill: 'black', // 文本的颜色
+            } , // 文本样式，支持回调
+            formatter: function formatter(val) {
+                return val;
+            }
+        },
+        line: {
+            lineWidth: 1, // 设置线的宽度
+            stroke: '#fff', // 设置线的颜色
+        }
+    });
+    chart.line().position('month*temperature').color('city').shape('smooth');
+    chart.point().position('month*temperature').color('city').size(4).shape('circle').style({
+        stroke: '#fff',
+        lineWidth: 1
+    });
+    chart.render();
+</script>
+</body>
+</html>

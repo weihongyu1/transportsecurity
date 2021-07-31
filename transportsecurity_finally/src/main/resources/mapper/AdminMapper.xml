@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 映射SQL语句 -->
+<!-- namespace：名称空间指定为接口的全类名 -->
+<mapper namespace="com.why.transportsecurity_finally.mapper.AdminMapper">
+    <select id="getAdminById" resultType="com.why.transportsecurity_finally.entity.Admin">
+        select id,u_id,u_name,u_pwd,u_salt from tbl_admin where u_id = #{uId}
+    </select>
+
+    <select id="getAdminByIdPre" resultType="com.why.transportsecurity_finally.entity.Admin">
+        select id,u_id,u_name,u_pwd,u_salt from tbl_admin where id = #{id}
+    </select>
+
+    <insert id="insertAdmin">
+        insert into tbl_admin values (null ,#{uId},#{uName},#{uPwd},#{uSalt})
+    </insert>
+
+    <update id="updateAdmin">
+        update tbl_admin set u_id = #{uId},u_name = #{uName} where u_id = #{uId}
+    </update>
+
+    <update id="updateAdminPwd">
+        update tbl_admin set u_pwd = #{uPwd},u_salt = #{uSalt} where id = #{id}
+    </update>
+
+    <select id="getAdminInfoByUId" resultType="com.why.transportsecurity_finally.entity.AdminInfo">
+        select id,u_phone,u_email,u_address,u_birth,u_date,u_id from tbl_admin_info where u_id = #{uId}
+    </select>
+
+    <insert id="insertAdminInfo">
+        insert into tbl_admin_info values (null ,#{uPhone},#{uEmail},#{uAddress},#{uBirth},#{uDate},#{uId})
+    </insert>
+
+    <update id="updateAdminInfo">
+        update tbl_admin_info set u_phone=#{uPhone},u_email=#{uEmail},u_address=#{uAddress},u_birth=#{uBirth},u_date=#{uDate} where u_id=#{uId}
+    </update>
+
+</mapper>
