@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>事故信息</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <script src="/js/jquery-3.3.1.slim.min.js" ></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=b14bd3fc3141910e670d48b25492a558"></script>
+    <style>
+        body{
+            margin: 0;padding:0;
+        }
+
+        li {
+            list-style-type: none;
+            float: left;
+            margin-top: 2.5rem;
+            margin-left: 1.875rem;
+        }
+
+        a:hover {
+            color: lightcyan;
+        }
+
+
+        .breath_light {
+            /*width: 300px;  */                                  /* 宽度 */
+            /*height: 300px; */                                   /* 高度 */
+            /*border:#666 1px solid;*/
+            /*border-radius:50%;*/
+            opacity: 0.1;                                   /* 不透明度 */
+            overflow: hidden;                               /* 溢出隐藏 */
+            /* margin: 25% auto; */                              /* 外边距 */
+
+            /* IE10、Firefox and Opera，IE9以及更早的版本不支持 */
+            animation-name: breath;                         /* 动画名称 */
+            animation-duration: 700ms;                         /* 动画时长3秒 */
+            animation-timing-function: ease-in-out;         /* 动画速度曲线：以低速开始和结束 */
+            animation-iteration-count: infinite;            /* 播放次数：无限 */
+
+            /* Safari and Chrome */
+            -webkit-animation-name: breath;                 /* 动画名称 */
+            -webkit-animation-duration: 700ms;                 /* 动画时长3秒 */
+            -webkit-animation-timing-function: ease-in-out; /* 动画速度曲线：以低速开始和结束 */
+            -webkit-animation-iteration-count: infinite;    /* 播放次数：无限 */
+        }
+
+        @keyframes breath {
+            from { opacity: 0.1; }                          /* 动画开始时的不透明度 */
+            50%  { opacity:   1; }                          /* 动画50% 时的不透明度 */
+            to   { opacity: 0.1; }                          /* 动画结束时的不透明度 */
+        }
+
+        @-webkit-keyframes breath {
+            from { opacity: 0.1; }                          /* 动画开始时的不透明度 */
+            50%  { opacity:   1; }                          /* 动画50% 时的不透明度 */
+            to   { opacity: 0.1; }                          /* 动画结束时的不透明度 */
+        }
+    </style>
+</head>
+<body>
+
+<header style="height: 6.25rem; background-color: #0056B3;">
+    <h1 style="padding-top: 1.25rem;margin-left: 40rem;color: #e7f1ff;float: left">车辆事故信息监控</h1>
+    <img class="breath_light" th:unless="${detailInfo.isState()}" src="/img/w2.png" alt="无法加载" style="height: 1.875rem;width: 1.875rem;float: left;margin-top: 2.0625rem;margin-left: 0.9375rem">
+    <img th:if="${detailInfo.isState()}" src="/img/success.png" alt="无法加载" style="height: 1.875rem;width: 1.875rem;float: left;margin-top: 2.0625rem;margin-left: 0.9375rem">
+</header>
+
+<main style="margin-top: 0;">
+    <div class="row no-gutters">
+        <div class="col-3" style="margin-left: 0;">
+            <div style="height: 43rem; z-index: 3;">
+                <iframe name="myFrame" th:src="@{/ts/accident/infoLeft(vId=${vId},aId=${aId})}"
+                        style="width: 100%; height: 100%; border: none; overflow-y: hidden;"></iframe>
+            </div>
+        </div>
+        <div class="col-6">
+            <!-- 地图 -->
+            <div style="width: 100%; height:100%;border:#ccc solid 0.0625rem;font-size:0.75rem;" id="map"></div>
+        </div>
+        <div class="col-3">
+            <div style="height: 35rem; z-index: 3;">
+                <iframe name="myFrame" th:src="@{/ts/accident/infoRight(vId=${vId},aId=${aId})}"
+                        style="width: 100%; height: 100%; border: none; overflow-y: hidden;">
+                </iframe>
+            </div>
+            <div style="height: 8rem;z-index: 3;background-color: #2F4056;color:#B3D7FF">
+                <div style="height: 1.875rem; background-color: #004085">
+                    <h6 style="padding-top: 0.3125rem;margin-left: 0.625rem">操作</h6>
+                </div>
+
+                <button style="margin-left: 1rem;margin-top: 1.5rem" th:unless="${detailInfo.isState()}" type="submit" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                    立即处理
+                </button>
+                <button style="margin-left: 1rem;margin-top: 1.5rem" th:if="${detailInfo.isState()}" type="button" class="btn bg-info">
+                    <a th:href="@{/ts/accident/warning}" style="color: #e7f1ff">已处理</a>
+                </button>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+     style="margin-top: 1.25rem;margin-left: 35rem;">
+
+        <div class="card border-info mb-3" style="max-width: 30rem;">
+            <div class="card-header"><h5 class="card-title">处理数据</h5></div>
+            <div class="card-body text-info">
+                <p th:text="'车主姓名：'+${vehicle.getVName()}"></p>
+                <p th:text="'车牌号：'+${vehicle.getVNum()}"></p>
+                <p th:text="'车辆类型：'+${vehicle.getVType()}"></p>
+                <p th:text="'地址：'+${detailInfo.getAddress()}"></p>
+            </div>
+            <div class="modal-footer" style="padding-left: 10rem">
+                <div class="modal-dialog" role="document">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                </div>
+                <form action="/ts/accident/solve" method="post">
+                    <input type="hidden" name="aId" th:value="${aId}">
+                    <input type="hidden" name="vId" th:value="${vId}">
+                    <button type="submit" class="btn btn-primary" style="margin-left: 1rem">确定</button>
+                </form>
+            </div>
+        </div>
+
+</div>
+
+<script>
+
+    var lng = [[${lng}]];
+    var lat = [[${lat}]];
+    var address = '[[${address}]]';
+
+    var marker,map = new AMap.Map('map', {
+        resizeEnable: true, //是否监控地图容器尺寸变化
+        zoom:12, //初始化地图层级
+        center: [lng, lat], //初始化地图中心点
+    });
+
+    // 创建一个 Marker 实例：
+    var marker = new AMap.Marker({
+        icon: "//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png",
+        position: new AMap.LngLat(lng, lat),   // 经纬度对象，也可以是经纬度构成的一维数组
+        title: '地址'
+    });
+
+    // 将创建的点标记添加到已有的地图实例：
+    map.add(marker);
+
+    // 信息窗体的内容
+    var content = [
+        "<h4>事故地点</h4>",
+        "<p style='font-size: medium'>",
+        address,
+        "</p>",
+        "<br>"
+    ];
+
+
+    // 创建 infoWindow 实例
+    var infoWindow = new AMap.InfoWindow({
+        content: content.join("<br>")  //传入 dom 对象，或者 html 字符串
+    });
+    var position = new AMap.LngLat(lng, lat);
+    infoWindow.open(map, position);
+</script>
+</body>
+</html>
