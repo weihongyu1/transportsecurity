@@ -6,11 +6,30 @@
 <!-- 映射SQL语句 -->
 <!-- namespace：名称空间指定为接口的全类名 -->
 <mapper namespace="com.why.transportsecurity_finally.mapper.AdminMapper">
-    <select id="getAdminById" resultType="com.why.transportsecurity_finally.entity.Admin">
+
+    <resultMap id="admin" type="com.why.transportsecurity_finally.entity.Admin">
+        <result column="id" property="id" />
+        <result column="u_id" property="uId" />
+        <result column="u_name" property="uName" />
+        <result column="u_pwd" property="uPwd" />
+        <result column="u_salt" property="uSalt" />
+    </resultMap>
+
+    <resultMap id="adminInfo" type="com.why.transportsecurity_finally.entity.AdminInfo">
+        <result column="id" property="id" />
+        <result column="u_phone" property="uPhone" />
+        <result column="u_email" property="uEmail" />
+        <result column="u_address" property="uAddress" />
+        <result column="u_birth" property="uBirth" />
+        <result column="u_date" property="uDate" />
+        <result column="u_id" property="uId" />
+    </resultMap>
+
+    <select id="getAdminById" resultMap="admin">
         select id,u_id,u_name,u_pwd,u_salt from tbl_admin where u_id = #{uId}
     </select>
 
-    <select id="getAdminByIdPre" resultType="com.why.transportsecurity_finally.entity.Admin">
+    <select id="getAdminByIdPre" resultMap="admin">
         select id,u_id,u_name,u_pwd,u_salt from tbl_admin where id = #{id}
     </select>
 
@@ -26,7 +45,7 @@
         update tbl_admin set u_pwd = #{uPwd},u_salt = #{uSalt} where id = #{id}
     </update>
 
-    <select id="getAdminInfoByUId" resultType="com.why.transportsecurity_finally.entity.AdminInfo">
+    <select id="getAdminInfoByUId" resultMap="adminInfo">
         select id,u_phone,u_email,u_address,u_birth,u_date,u_id from tbl_admin_info where u_id = #{uId}
     </select>
 

@@ -6,7 +6,15 @@
 <!-- 映射SQL语句 -->
 <!-- namespace：名称空间指定为接口的全类名 -->
 <mapper namespace="com.why.transportsecurity_finally.mapper.VehicleInfoMapper">
-    <select id="getVehicle" resultType="com.why.transportsecurity_finally.entity.VehicleInfo">
+
+    <resultMap id="vehicleInfo" type="com.why.transportsecurity_finally.entity.VehicleInfo">
+        <result column="id" property="id" />
+        <result column="v_name" property="vName" />
+        <result column="v_num" property="vNum" />
+        <result column="v_type" property="vType" />
+    </resultMap>
+
+    <select id="getVehicle" resultMap="vehicleInfo">
         select id,v_name,v_num,v_type from tbl_vehicle_info where id = #{id}
     </select>
 
@@ -14,11 +22,11 @@
         select  id from tbl_vehicle_info where v_num = #{vNum}
     </select>
 
-    <select id="getAll" resultType="com.why.transportsecurity_finally.entity.VehicleInfo">
+    <select id="getAll" resultMap="vehicleInfo">
         select id,v_name,v_num,v_type from tbl_vehicle_info
     </select>
 
-    <select id="getVehicleByVNum" resultType="com.why.transportsecurity_finally.entity.VehicleInfo">
+    <select id="getVehicleByVNum" resultMap="vehicleInfo">
         select id,v_name,v_num,v_type from tbl_vehicle_info where v_num = #{vNum}
     </select>
 
@@ -34,7 +42,7 @@
         update tbl_vehicle_info set v_name = #{vName},v_num = #{vNum},v_type = #{vType} where id = #{id}
     </update>
 
-    <select id="getVehicleByVName" resultType="com.why.transportsecurity_finally.entity.VehicleInfo">
+    <select id="getVehicleByVName" resultMap="vehicleInfo">
         select id,v_name,v_num,v_type from tbl_vehicle_info where v_name = #{vName}
     </select>
 
