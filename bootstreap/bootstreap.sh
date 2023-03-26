@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LOCAL_TIME=$(data+"%Y%m%d %H:%M:%S")
+LOCAL_TIME=$(date+"%Y%m%d %H:%M:%S")
 HEALTH='健康检查'
 echo "${HEALTH} ${LOCAL_TIME}" >> health.log
 RESULT=$(curl -s http://localhost/ts/health)
