@@ -60,6 +60,7 @@ public class ServerTcp extends Thread {
             //处理接收数据
             log.info(accept.getRemoteSocketAddress() + " -- " + "开始传输数据");
             String info = handle(is, baos);
+            log.info("数据：{}", info);
             //获取service
             AccidentServiceImpl accidentService = SpringUtils.getBean(AccidentServiceImpl.class);
             log.info(accept.getRemoteSocketAddress() + " -- " + "数据正在写入数据库");
