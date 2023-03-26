@@ -9,5 +9,5 @@ then
   echo '健康检查通过' >> health.log
 else
   echo '健康检查不通过' >> health.log
-  nohup java -jar /home/java/transport/transportsecurity_finally-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod &
+  nohup java -jar /home/java/transport/target/transportsecurity_finally-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod &
 fi
