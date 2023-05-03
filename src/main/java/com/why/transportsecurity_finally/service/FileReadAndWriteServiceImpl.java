@@ -30,6 +30,7 @@ public class FileReadAndWriteServiceImpl implements FileReadAndWriteService {
 
     @Override
     public void writeAx() {
+        // 复制粘贴地址
         List<List<String>> lists = ExcelUtils.readExcel("E:\\车辆安全\\tranprotsecurity-latest\\tranportsecurity_latest\\src\\main\\resources\\testFile\\ax.xlsx");
         Iterator<List<String>> iterator = lists.iterator();
         List<Object> list = new ArrayList<>();
@@ -45,6 +46,7 @@ public class FileReadAndWriteServiceImpl implements FileReadAndWriteService {
         while (iterator1.hasNext()) {
             count++;
             String next = (String) iterator1.next();
+            // 车辆事故id更换
             ax.add(new Ax(count, Double.valueOf(next),2));
         }
         Iterator<Ax> iterator2 = ax.iterator();
